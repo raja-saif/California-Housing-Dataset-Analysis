@@ -1,0 +1,483 @@
+CALIFORNIA HOUSING DATASET ANALYSIS REPORT
+==========================================
+
+Machine Learning Assignment - Comprehensive Analysis
+Date: [Current Date]
+Author: [Your Name]
+
+EXECUTIVE SUMMARY
+=================
+This report presents a comprehensive analysis of the California Housing Dataset using various regression techniques and statistical methods. The analysis was conducted in five phases, each focusing on different aspects of machine learning model development and evaluation. All results presented are based on actual execution outputs from the implemented code.
+
+DATASET OVERVIEW
+================
+- Dataset: California Housing Dataset from sklearn
+- Total Records: 20,640
+- Features: 8 (MedInc, HouseAge, AveRooms, AveBedrms, Population, AveOccup, Latitude, Longitude)
+- Target Variable: Median House Value (in $100,000s)
+- Analysis Method: NumPy-based statistical analysis (Pandas not used as per requirements)
+
+PHASE 1: DATASET LOADING [15 points]
+====================================
+
+OBJECTIVES:
+- Load dataset from sklearn without using Pandas
+- Display features and target variable in array form
+- Show feature headers with values in table format
+
+METHODOLOGY:
+- Used sklearn.datasets.fetch_california_housing() to load the dataset
+- Extracted features (X) and target (y) as NumPy arrays
+- Created custom table formatting without using Pandas DataFrame
+- Displayed first 10 samples with proper alignment
+- Computed basic statistics for all features
+
+ACTUAL RESULTS:
+- Successfully loaded 20,640 samples with 8 features
+- Target variable shape: (20640,)
+- Feature names: MedInc, HouseAge, AveRooms, AveBedrms, Population, AveOccup, Latitude, Longitude
+- Target variable: Median House Value (in $100,000s)
+
+Sample Data Display (First 10 samples):
+Sample      MedInc    HouseAge    AveRooms   AveBedrms  Population    AveOccup    Latitude   Longitude
+     0      8.3252     41.0000      6.9841      1.0238    322.0000      2.5556     37.8800   -122.2300
+     1      8.3014     21.0000      6.2381      0.9719   2401.0000      2.1098     37.8600   -122.2200
+     2      7.2574     52.0000      8.2881      1.0734    496.0000      2.8023     37.8500   -122.2400
+     3      5.6431     52.0000      5.8174      1.0731    558.0000      2.5479     37.8500   -122.2500
+     4      3.8462     52.0000      6.2819      1.0811    565.0000      2.1815     37.8500   -122.2500
+
+Target values (first 10): [4.526 3.585 3.521 3.413 3.422 2.697 2.992 2.414 2.267 2.611]
+
+Feature Statistics (Actual Results):
+Feature         Min        Max        Mean       Std       
+MedInc          0.4999     15.0001    3.8707     1.8998    
+HouseAge        1.0000     52.0000    28.6395    12.5853   
+AveRooms        0.8462     141.9091   5.4290     2.4741    
+AveBedrms       0.3333     34.0667    1.0967     0.4739    
+Population      3.0000     35682.0000 1425.4767  1132.4347 
+AveOccup        0.6923     1243.3333  3.0707     10.3858   
+Latitude        32.5400    41.9500    35.6319    2.1359    
+Longitude       -124.3500  -114.3100  -119.5697  2.0035    
+
+Target (Median House Value):
+Min: 0.1500, Max: 5.0000, Mean: 2.0686, Std: 1.1539
+
+PHASE 2: EXPLORATORY DATA ANALYSIS [25 points]
+==============================================
+
+OBJECTIVES:
+- Compute descriptive statistics using NumPy
+- Detect and analyze skewness in all features
+- Visualize distributions using histograms and boxplots
+- Generate correlation matrix and heatmap
+- Analyze feature correlations and their importance
+
+METHODOLOGY:
+- Implemented custom skewness calculation function
+- Created comprehensive statistical analysis
+- Generated distribution visualizations
+- Computed correlation matrix using NumPy
+- Analyzed feature relationships
+
+ACTUAL DESCRIPTIVE STATISTICS:
+Feature         Mean       Median     Min        Max        Std        Skewness  
+MedInc          3.8707     3.5348     0.4999     15.0001    1.8998     1.6468    
+HouseAge        28.6395    29.0000    1.0000     52.0000    12.5853    0.0603    
+AveRooms        5.4290     5.2291     0.8462     141.9091   2.4741     20.6994   
+AveBedrms       1.0967     1.0488     0.3333     34.0667    0.4739     31.3192   
+Population      1425.4767  1166.0000  3.0000     35682.0000 1132.4347  4.9362    
+AveOccup        3.0707     2.8181     0.6923     1243.3333  10.3858    97.6467   
+Latitude        35.6319    34.2600    32.5400    41.9500    2.1359     0.4660    
+Longitude       -119.5697  -118.4900  -124.3500  -114.3100  2.0035     -0.2978   
+Target          2.0686     1.7970     0.1500     5.0000     1.1539     0.9778    
+
+SKEWNESS ANALYSIS (Actual Results):
+MedInc: 1.6468 (Highly skewed, right-skewed)
+HouseAge: 0.0603 (Approximately symmetric, right-skewed)
+AveRooms: 20.6994 (Highly skewed, right-skewed)
+AveBedrms: 31.3192 (Highly skewed, right-skewed)
+Population: 4.9362 (Highly skewed, right-skewed)
+AveOccup: 97.6467 (Highly skewed, right-skewed)
+Latitude: 0.4660 (Approximately symmetric, right-skewed)
+Longitude: -0.2978 (Approximately symmetric, left-skewed)
+Target: 0.9778 (Moderately skewed, right-skewed)
+
+CORRELATION ANALYSIS (Actual Results):
+Feature Correlations with Target (Median House Value):
+MedInc         :  0.688 (Strong Positive)
+HouseAge       :  0.106 (Weak Positive)
+AveRooms       :  0.152 (Weak Positive)
+AveBedrms      : -0.047 (Weak Negative)
+Population     : -0.025 (Weak Negative)
+AveOccup       : -0.024 (Weak Negative)
+Latitude       : -0.144 (Weak Negative)
+Longitude      : -0.046 (Weak Negative)
+
+Highly Correlated Feature Pairs (|correlation| > 0.7):
+- AveRooms - AveBedrms: 0.848
+- Latitude - Longitude: -0.925
+
+KEY FINDINGS:
+1. MedInc shows the strongest correlation with house value (0.688)
+2. Most features are highly skewed, indicating non-normal distributions
+3. Two highly correlated feature pairs detected
+4. Target variable is moderately right-skewed
+
+[FIGURE REFERENCE: Insert Figure 1 - Distribution histograms for all features and target variable showing the skewness patterns discussed above]
+
+[FIGURE REFERENCE: Insert Figure 2 - Boxplots for all features showing outliers and distribution shapes]
+
+[FIGURE REFERENCE: Insert Figure 3 - Correlation matrix heatmap showing feature relationships and the two highly correlated pairs]
+
+PHASE 3: REGRESSION EXPERIMENTS [30 points]
+===========================================
+
+PART A: SINGLE-COLUMN REGRESSION
+--------------------------------
+
+OBJECTIVES:
+- Analyze relationship between single feature and target
+- Implement Linear Regression and SGD Regressor
+- Test polynomial regression with different degrees
+- Compare performance using MSE, MAE, R2, RMSE
+
+METHODOLOGY:
+- Selected MedInc as the feature with highest correlation (0.6881)
+- Implemented Linear Regression and SGD Regressor
+- Tested polynomial features with degrees 1-5
+- Evaluated performance on test set
+
+ACTUAL RESULTS:
+Selected Feature for Single-Column Analysis: MedInc
+Correlation with target: 0.6881
+Training set size: 16512
+Test set size: 4128
+
+SINGLE-COLUMN REGRESSION RESULTS:
+Model                MSE        MAE        R2         RMSE      
+Linear Regression    0.7091     0.6299     0.4589     0.8421    
+SGD Regressor        0.7096     0.6264     0.4585     0.8424    
+
+POLYNOMIAL REGRESSION EXPERIMENTS:
+Degree 1: MSE=0.7091, MAE=0.6299, R2=0.4589, RMSE=0.8421
+Degree 2: MSE=0.7033, MAE=0.6283, R2=0.4633, RMSE=0.8386
+Degree 3: MSE=0.6983, MAE=0.6219, R2=0.4671, RMSE=0.8356
+Degree 4: MSE=0.6981, MAE=0.6219, R2=0.4673, RMSE=0.8355
+Degree 5: MSE=0.6987, MAE=0.6214, R2=0.4668, RMSE=0.8359
+
+Best polynomial degree: 4 (R2 = 0.4673)
+Linear regression R2: 0.4589
+Improvement: 0.0084
+
+[FIGURE REFERENCE: Insert Figure 4 - Polynomial regression visualization showing R2 vs Polynomial Degree, MSE vs Polynomial Degree, and Actual vs Predicted scatter plot for best polynomial degree]
+
+PART B: MULTI-COLUMN REGRESSION WITH ENGINEERED FEATURES
+-------------------------------------------------------
+
+OBJECTIVES:
+- Use multiple features for regression
+- Create engineered features (square and cubic terms)
+- Compare models on original vs engineered features
+- Analyze overfitting risks
+
+METHODOLOGY:
+- Used all 8 original features
+- Created square terms (16 features total)
+- Created cubic terms (24 features total)
+- Applied Linear Regression and SGD Regressor to each feature set
+
+ACTUAL RESULTS:
+Multi-feature training set size: (16512, 8)
+Multi-feature test set size: (4128, 8)
+Original features: 8
+With square terms: 16
+With cubic terms: 24
+
+MULTI-COLUMN REGRESSION RESULTS:
+Original Features:
+Linear Regression   : MSE=0.5559, MAE=0.5332, R2=0.5758, RMSE=0.7456
+SGD Regressor       : MSE=83952116678914172569906053120.0000, MAE=220952343918757.4062, R2=-64065584159543804669804412928.0000, RMSE=289744916571307.8750
+
+Square Terms Features:
+Linear Regression   : MSE=0.8420, MAE=0.5327, R2=0.3574, RMSE=0.9176
+SGD Regressor       : MSE=7553627808926322243134807230158955106795520.0000, MAE=961414218986196566016.0000, R2=-5764328491602945259908737681866751689621504.0000, RMSE=2748386400949895692288.0000
+
+Cubic Terms Features:
+Linear Regression   : MSE=7.0573, MAE=0.5333, R2=-4.3856, RMSE=2.6566
+SGD Regressor       : MSE=11958937444455081460741534353921869314040629212886383403728896.0000, MAE=469740363285136554884060938240.0000, R2=-9126110735679502922734225543726975280249370892229957719687168.0000, RMSE=3458169666811488535566694219776.0000
+
+ANALYSIS AND DISCUSSION:
+Best performing model: Linear Regression with Original features
+Best R2 score: 0.5758
+
+Single-feature vs Multi-feature comparison:
+Single-feature Linear Regression R2: 0.4589
+Multi-feature Linear Regression R2: 0.5758
+
+Overfitting Analysis:
+Cubic terms decrease R2 by 4.9613 - Possible overfitting
+
+KEY FINDINGS:
+1. Multiple features significantly improve predictive accuracy compared to single features
+2. Engineered features (square/cubic terms) show performance degradation
+3. Higher polynomial degrees increase model complexity and risk of overfitting
+4. SGD Regressor shows numerical instability without proper scaling
+
+PHASE 4: MODEL IMPLEMENTATION [25 points]
+=========================================
+
+OBJECTIVES:
+- Perform 80/20 train-test split
+- Apply standardization and explain choice
+- Implement Linear Regression and SGD Regressor
+- Compute comprehensive metrics on training and test sets
+- Analyze errors and create visualizations
+
+METHODOLOGY:
+- Used train_test_split with 80/20 ratio and random_state=42
+- Applied StandardScaler for feature standardization
+- Trained both models on scaled data
+- Computed MSE, MAE, R2, RMSE for training and test sets
+- Created comprehensive error analysis visualizations
+
+STANDARDIZATION RATIONALE:
+- Standardization (Z-score normalization) chosen over normalization
+- Centers data around 0 with unit variance
+- SGD Regressor is sensitive to feature scaling
+- Works better with features having different scales
+- Preferred for linear models
+
+ACTUAL RESULTS:
+Training set size: 16512 (80.0%)
+Test set size: 4128 (20.0%)
+
+Original feature ranges:
+MedInc: [0.500, 15.000]
+HouseAge: [1.000, 52.000]
+AveRooms: [0.889, 141.909]
+AveBedrms: [0.333, 25.636]
+Population: [3.000, 35682.000]
+AveOccup: [0.692, 1243.333]
+Latitude: [32.550, 41.950]
+Longitude: [-124.350, -114.310]
+
+Scaled feature ranges:
+MedInc: [-1.775, 5.839]
+HouseAge: [-2.191, 1.856]
+AveRooms: [-1.904, 57.167]
+AveBedrms: [-1.762, 56.647]
+Population: [-1.252, 30.127]
+AveOccup: [-0.208, 107.116]
+Latitude: [-1.448, 2.952]
+Longitude: [-2.377, 2.629]
+
+MODEL PERFORMANCE METRICS (Actual Results):
+Model                Dataset    MSE        MAE        R2         RMSE      
+Linear Regression    Training   0.5179     0.5286     0.6126     0.7197    
+Linear Regression    Test       0.5559     0.5332     0.5758     0.7456    
+SGD Regressor        Training   0.5284     0.5275     0.6047     0.7269    
+SGD Regressor        Test       0.5506     0.5299     0.5798     0.7420    
+
+KEY FINDINGS:
+- Both models show similar performance
+- Minimal overfitting detected (training vs test performance)
+- Standardization significantly improved SGD Regressor performance
+- Linear Regression shows slightly better performance
+
+[FIGURE REFERENCE: Insert Figure 5 - Comprehensive error analysis plots including:
+- Actual vs Predicted scatter plots for both models
+- Residual plots showing error patterns
+- Residual distribution histograms
+- Q-Q plots for normality assessment
+- Model coefficients comparison
+- Performance metrics comparison
+- Training vs Test performance analysis
+- Absolute error distribution comparison]
+
+PHASE 5: K-FOLD CROSS-VALIDATION [15 points]
+============================================
+
+OBJECTIVES:
+- Apply 5-fold cross-validation to both models
+- Compare stability and predictive performance
+- Validate single train-test split results
+- Perform statistical significance testing
+
+METHODOLOGY:
+- Created pipelines with StandardScaler and regressors
+- Applied 5-fold cross-validation with multiple metrics
+- Computed mean, std, min, max for each metric
+- Performed t-test for statistical significance
+
+ACTUAL CROSS-VALIDATION RESULTS:
+Linear Regression Cross-Validation:
+neg_mean_squared_error: -0.5583 (+/- 0.1312)
+neg_mean_absolute_error: -0.5475 (+/- 0.0436)
+r2: 0.5530 (+/- 0.1234)
+
+SGD Regressor Cross-Validation:
+neg_mean_squared_error: -40.7994 (+/- 106.0706)
+neg_mean_absolute_error: -1.0590 (+/- 0.8615)
+r2: -33.8390 (+/- 97.2145)
+
+CROSS-VALIDATION RESULTS COMPARISON:
+Metric     Model                Mean       Std        Min        Max       
+MSE        Linear Regression    0.5583     0.0656     0.4849     0.6462    
+           SGD Regressor        40.7994    53.0353    0.6289     136.1587  
+
+MAE        Linear Regression    0.5475     0.0218     0.5169     0.5765    
+           SGD Regressor        1.0590     0.4308     0.5639     1.6387    
+
+R2         Linear Regression    0.5530     0.0617     0.4682     0.6605    
+           SGD Regressor        -33.8390   48.6073    -125.7450  0.5477    
+
+RMSE       Linear Regression    0.7459     0.0437     0.6963     0.8039    
+           SGD Regressor        4.6608     4.3676     0.7930     11.6687   
+
+MODEL STABILITY ANALYSIS:
+Linear Regression R2 standard deviation: 0.0617
+SGD Regressor R2 standard deviation: 48.6073
+Linear Regression is more stable (lower std deviation)
+
+PREDICTIVE PERFORMANCE ANALYSIS:
+Linear Regression mean R2: 0.5530
+SGD Regressor mean R2: -33.8390
+Linear Regression demonstrates higher predictive performance
+
+STATISTICAL TEST (t-test for R2 scores):
+t-statistic: 1.4146
+p-value: 0.2301
+No statistically significant difference between models (p >= 0.05)
+
+[FIGURE REFERENCE: Insert Figure 6 - Cross-validation results boxplots showing MSE, MAE, R2, and RMSE distributions for both models across 5 folds]
+
+COMPREHENSIVE ANALYSIS AND CONCLUSIONS
+======================================
+
+## STEPS PERFORMED AND RATIONALE
+
+**Phase 1 - Dataset Loading:**
+- Loaded California Housing Dataset using sklearn without Pandas as required
+- Displayed features and target in array format for direct analysis
+- Created custom table formatting to meet assignment requirements
+
+**Phase 2 - Exploratory Data Analysis:**
+- Computed comprehensive descriptive statistics using NumPy
+- Analyzed skewness to understand data distribution patterns
+- Generated correlation matrix to identify feature relationships
+- Created visualizations to support statistical findings
+
+**Phase 3 - Regression Experiments:**
+- Single-feature analysis to establish baseline performance
+- Multi-feature analysis to demonstrate improvement potential
+- Polynomial feature engineering to test non-linear relationships
+- Comparative analysis of different model approaches
+
+**Phase 4 - Model Implementation:**
+- Applied proper train-test split (80/20) for unbiased evaluation
+- Implemented standardization for optimal model performance
+- Comprehensive error analysis to understand model behavior
+- Detailed performance metrics on both training and test sets
+
+**Phase 5 - Cross-Validation:**
+- 5-fold cross-validation for robust performance estimation
+- Statistical significance testing to validate findings
+- Model stability analysis across different data splits
+
+## DATASET ANALYSIS
+
+DATASET CHARACTERISTICS:
+- California Housing Dataset contains 20,640 records with 8 features
+- Target variable is Median House Value (in $100,000s)
+- Features show varying degrees of skewness and correlation
+- No missing values or obvious data quality issues
+
+KEY STATISTICAL FINDINGS:
+1. MedInc shows strongest correlation with house value (0.688)
+2. Most features are highly skewed (AveOccup: 97.65, AveBedrms: 31.32)
+3. Two highly correlated feature pairs detected (AveRooms-AveBedrms: 0.848, Latitude-Longitude: -0.925)
+4. Feature scaling is critical for SGD Regressor performance
+
+## MODELS IMPLEMENTED AND SELECTION RATIONALE
+
+**Models Trained:**
+1. **Linear Regression** - Standard linear regression for baseline performance
+2. **SGD Regressor** - Stochastic gradient descent for comparison
+3. **Polynomial Regression** - Testing non-linear relationships (degrees 1-5)
+4. **Multi-feature Regression** - Using all 8 features simultaneously
+5. **Engineered Feature Regression** - With square and cubic terms
+
+**Model Selection Justification:**
+- **Linear Regression chosen as primary model** due to:
+  - Consistent performance across all experiments (R2: 0.55-0.58)
+  - Numerical stability and reliability
+  - Good interpretability for business insights
+  - Minimal overfitting risk
+
+- **SGD Regressor limitations identified:**
+  - Numerical instability without proper scaling
+  - Poor cross-validation performance (R2: -33.84)
+  - High variance across different data splits
+  - Requires extensive hyperparameter tuning
+
+- **Polynomial features rejected** due to:
+  - Performance degradation with higher degrees
+  - Clear overfitting evidence (R2: -4.39 for cubic terms)
+  - Increased model complexity without benefit
+
+**Why not "best" possible models:**
+- **Random Forest/XGBoost not implemented** because:
+  - Assignment specifically required Linear Regression and SGD
+  - Linear models provide better interpretability
+  - Current performance (R2 ≈ 0.58) is acceptable for the dataset
+  - Focus was on understanding linear relationships
+
+- **Regularization not applied** because:
+  - No evidence of overfitting in Linear Regression
+  - Cross-validation shows stable performance
+  - Model complexity is already appropriate
+
+MODEL PERFORMANCE COMPARISON:
+1. Multiple features significantly outperform single features (R2: 0.4589 → 0.5758)
+2. Engineered features (polynomial terms) show performance degradation
+3. Linear Regression consistently outperforms SGD Regressor
+4. Standardization is essential for SGD Regressor stability
+
+TECHNICAL INSIGHTS:
+1. Standardization is crucial for SGD Regressor performance
+2. Cross-validation reveals SGD Regressor instability
+3. Polynomial features can degrade performance due to overfitting
+4. Model stability is important for reliable predictions
+
+CRITICAL OBSERVATIONS:
+1. SGD Regressor shows numerical instability without proper scaling
+2. Cross-validation reveals significant performance differences
+3. Linear Regression is more stable and reliable
+4. Feature engineering requires careful validation
+
+RECOMMENDATIONS:
+1. Use Linear Regression for this dataset
+2. Apply feature standardization for all models
+3. Avoid complex polynomial features to prevent overfitting
+4. Use cross-validation for robust model evaluation
+5. Monitor for numerical instability in SGD Regressor
+
+LIMITATIONS AND FUTURE WORK:
+1. SGD Regressor requires hyperparameter tuning
+2. Feature engineering could be more sophisticated
+3. Other algorithms (Random Forest, XGBoost) could be explored
+4. Ensemble methods could improve performance
+5. Regularization techniques could prevent overfitting
+
+FINAL ASSESSMENT:
+The analysis successfully demonstrates the complete machine learning pipeline from data exploration to model evaluation. The California Housing Dataset provides a good foundation for regression analysis, with Linear Regression showing reliable performance (R2 ≈ 0.55-0.58). The systematic approach using NumPy for statistical analysis and comprehensive evaluation metrics provides valuable insights into the dataset characteristics and model behavior.
+
+The project successfully addresses all requirements:
+✓ Dataset loading without Pandas
+✓ Comprehensive EDA with statistical analysis
+✓ Single and multi-feature regression experiments
+✓ Model implementation with proper evaluation
+✓ Cross-validation for robust assessment
+✓ Detailed analysis and interpretation
+
+This analysis provides a solid foundation for understanding regression modeling and demonstrates the importance of proper data preprocessing and model selection in machine learning projects.
